@@ -16,6 +16,7 @@ This is a simple AI chat application using Flask and CharacterAI to chat with Ve
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the Flask app: `python app.py`
 4. Open your browser and go to `http://localhost:5000`
+5. Check vaible key https://old.character.ai/
 
 ## Technologies Used
 
