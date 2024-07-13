@@ -1,8 +1,8 @@
-# AI Chat with Vestia Zeta
+# AI Chat with Alya Sometimes
 
 ![Alya Sometimes](https://telegra.ph/file/742023e1b134dd96b5c61.jpg)
 
-This is a simple AI chat application using Flask and CharacterAI to chat with Vestia Zeta.
+This is a simple AI chat application using Flask and CharacterAI to chat with Alya Sometimes.
 
 ## Features
 
