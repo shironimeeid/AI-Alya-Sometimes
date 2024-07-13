@@ -9,9 +9,9 @@ import time
 app = Flask(__name__)
 
 # Ganti dengan token API
-API_TOKEN = 'a90144bdd3229857eefda238bf2d8d5064613e65'
+API_TOKEN = 'YOUR_KEY'
 client = aiocai.Client(API_TOKEN)
-CHARACTER_ID = 'JheRCwosmY_IxPoxaS7lpOu5xbsh4hu9ld9U_VN-K7o'
+CHARACTER_ID = 'CHARACTER_ID'
 
 @app.route('/')
 def index():
