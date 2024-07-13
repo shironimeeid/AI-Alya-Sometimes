@@ -23,7 +23,6 @@ def chat():
 
     response = asyncio.run(chat_with_character(CHARACTER_ID, user_input))
     
-    # Restart the server after sending the response
     threading.Thread(target=restart_server).start()
     
     return jsonify(response)
@@ -39,11 +38,8 @@ async def chat_with_character(char_id, user_input):
         return {'user_message': user_input, 'ai_message': f"Error: {e}"}
 
 def restart_server():
-    # Wait for a short moment to ensure the response is sent
     import time
     time.sleep(1)
-    
-    # Restart the script using os.execl with properly quoted paths
     python = sys.executable
     os.execl(python, f'"{python}"', *sys.argv)
 
