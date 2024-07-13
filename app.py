@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 
-# Ganti dengan token API
+#Ganti dengan token nya di https://old.character.ai/
 API_TOKEN = 'YOUR_KEY'
 client = aiocai.Client(API_TOKEN)
 CHARACTER_ID = 'CHARACTER_ID'
