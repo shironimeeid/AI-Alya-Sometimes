@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#chat-box {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.user-message, .ai-message {
+    margin: 10px 0;
+}
+
+.user-message {
+    text-align: right;
+    color: blue;
+}
+
+.ai-message {
+    text-align: left;
+    color: green;
+}

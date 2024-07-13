@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+        }
+        .chat-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .chat-container.user {
+            justify-content: flex-end;
+        }
+        .chat-container.user .chat-box {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+        }
+        .chat-container.user img {
+            order: 1;
+            margin-left: 10px;
+        }
+        .chat-container.ai {
+            justify-content: flex-start;
+        }
+        .chat-container.ai .chat-box {
+            background-color: #e0e0e0;
+        }
+        .chat-container img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .chat-box {
+            max-width: 75%;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-wrap: break-word;
+        }
+        .user-message {
+            text-align: right;
+            color: #075e54;
+        }
+        .ai-message {
+            text-align: left;
+            color: #128c7e;
+        }
+        .input-container {
+            display: flex;
+            margin-top: 20px;
+        }
+        .input-container input[type=text] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .input-container button {
+            padding: 10px 20px;
+            background-color: #128c7e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .profile h2 {
+            margin: 0;
+            color: #333;
+        }
+        .disclaimer {
+            font-size: 10px;
+            text-align: center;
+            color: #888;
+            margin-top: 10px;
+        }
+        #chatResponse {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <img src="https://telegra.ph/file/742023e1b134dd96b5c61.jpg" alt="Profile Picture">
+            <h2>Alya-San</h2>
+        </div>
+        <h5 class="disclaimer">Percakapan ini dibuat hanyalah rekayasa secara otomatis oleh AI dan bersifat fiktif.</h5>
+        <div id="chatResponse"></div>
+        <form id="chatForm" class="input-container">
+            <input type="text" id="user_input" name="user_input" placeholder="Type a message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#chatForm').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                sendMessage(formData);
+            });
+        });
+
+        function sendMessage(formData) {
+            $.ajax({
+                type: 'POST',
+                url: '/chat',
+                data: formData,
+                dataType: 'json', 
+                success: function(response) {
+                    var userMessage = $('<div class="chat-container user"><div class="chat-box user-message">renn-shiro: ' + response.user_message + '</div><img src="https://telegra.ph/file/71d2da55dd7710d25d2f9.jpg" alt="User Profile"></div>');
+                    var aiMessage = $('<div class="chat-container ai"><img src="https://telegra.ph/file/742023e1b134dd96b5c61.jpg" alt="Alya-San Profile"><div class="chat-box ai-message">Alya-san: ' + response.ai_message + '</div></div>');
+                    $('#chatResponse').append(userMessage);
+                    $('#chatResponse').append(aiMessage);
+                    $('#chatResponse').scrollTop($('#chatResponse')[0].scrollHeight);
+                    $('#user_input').val('');
+                },
+                error: function(error) {
+                    var errorMessage = $('<div class="chat-box ai-message">').text('Error: ' + error.responseJSON.response);
+                    $('#chatResponse').append(errorMessage);
+                    $('#user_input').val('');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

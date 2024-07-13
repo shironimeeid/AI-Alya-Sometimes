@@ -1,0 +1,51 @@
+import asyncio
+from flask import Flask, render_template, request, jsonify
+from characterai import aiocai
+import os
+import sys
+import threading
+import time
+
+app = Flask(__name__)
+
+# Ganti dengan token API
+API_TOKEN = 'a90144bdd3229857eefda238bf2d8d5064613e65'
+client = aiocai.Client(API_TOKEN)
+CHARACTER_ID = 'JheRCwosmY_IxPoxaS7lpOu5xbsh4hu9ld9U_VN-K7o'
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.form['user_input']
+
+    response = asyncio.run(chat_with_character(CHARACTER_ID, user_input))
+    
+    # Restart the server after sending the response
+    threading.Thread(target=restart_server).start()
+    
+    return jsonify(response)
+
+async def chat_with_character(char_id, user_input):
+    try:
+        me = await client.get_me()
+        async with await client.connect() as chat:
+            new, answer = await chat.new_chat(char_id, me.id)
+            message = await chat.send_message(char_id, new.chat_id, user_input)
+            return {'user_message': user_input, 'ai_message': message.text}
+    except Exception as e:
+        return {'user_message': user_input, 'ai_message': f"Error: {e}"}
+
+def restart_server():
+    # Wait for a short moment to ensure the response is sent
+    import time
+    time.sleep(1)
+    
+    # Restart the script using os.execl with properly quoted paths
+    python = sys.executable
+    os.execl(python, f'"{python}"', *sys.argv)
+
+if __name__ == '__main__':
+    app.run(debug=True)
